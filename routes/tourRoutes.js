@@ -1,32 +1,53 @@
 const express = require('express');
-const tourController = require('../controllers/tourController');
-const authController = require('../controllers/authController');
+const {
+  getTourStats,
+  getMonthlyPlan,
+  aliasTopTours,
+  getToursWithin,
+  getDistances,
+  getAllTours,
+  createTour,
+  getTour,
+  updateTour,
+  deleteTour,
+  uploadTourImages,
+  resizeTourImages,
+} = require('../controllers/tourController');
+const { protect, restrictTo } = require('../controllers/authController');
+const reviewRouter = require('./reviewRoutes');
 
 const router = express.Router();
 
-// defining parameter middleware
-// router.param('id', tourController.checkID);
+router.use('/:tourId/reviews', reviewRouter);
+
+router.route('/tour-stats').get(getTourStats);
+router
+  .route('/monthly-plan/:year')
+  .get(protect, restrictTo('admin', 'lead-guide', 'guide'), getMonthlyPlan);
+
+router.route('/top-5-cheap').get(aliasTopTours, getAllTours);
 
 router
-  .route('/top-5-cheap')
-  .get(tourController.aliasTopTours, tourController.getAllTours);
+  .route('/tours-within/:distance/center/:latlng/unit/:unit')
+  .get(getToursWithin);
 
-router.route('/tour-stats').get(tourController.getTourStats);
-router.route('/monthly-plan/:year').get(tourController.getMonthlyPlan);
+router.route('/distances/:latlng/unit/:unit').get(getDistances);
 
 router
   .route('/')
-  .get(authController.protect, tourController.getAllTours)
-  .post(tourController.createTour);
+  .get(getAllTours)
+  .post(protect, restrictTo('admin', 'lead-guide'), createTour);
 
 router
   .route('/:id')
-  .get(tourController.getTour)
-  .patch(tourController.updateTour)
-  .delete(
-    authController.protect,
-    authController.restrictTo('admin', 'lead-guide'),
-    tourController.deleteTour
-  );
+  .get(getTour)
+  .patch(
+    protect,
+    restrictTo('admin', 'lead-guide'),
+    uploadTourImages,
+    resizeTourImages,
+    updateTour
+  )
+  .delete(protect, restrictTo('admin', 'lead-guide'), deleteTour);
 
 module.exports = router;

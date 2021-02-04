@@ -1,7 +1,7 @@
+/* eslint-disable no-console */
 const mongoose = require('mongoose');
 const dotenv = require('dotenv');
 
-/* eslint-disable no-console*/
 process.on('uncaughtException', (err) => {
   console.log('UNCAUGHT EXCEPTION! Shutting down...');
   console.log(err.name, err.message);
@@ -11,22 +11,22 @@ process.on('uncaughtException', (err) => {
 dotenv.config({ path: './config.env' });
 const app = require('./app');
 
-// TODO: activate hosted database
-// const DB = process.env.DATABASE.replace(
-//   '<PASSWORD>',
-//   process.env.DATABASE_PASSWORD
-// );
+// TODO: activate db on atlas
+const DB = process.env.DATABASE.replace(
+  '<PASSWORD>',
+  process.env.DATABASE_PASSWORD
+);
 
+// .connect(process.env.DATABASE_LOCAL, {
 mongoose
-  .connect(process.env.DATABASE_LOCAL, {
+  .connect(DB, {
     useNewUrlParser: true,
-    useCreateIndex: true,
     useUnifiedTopology: true,
+    useCreateIndex: true,
     useFindAndModify: false,
   })
-  .then(() => console.log('Database connection successful...'));
+  .then(() => console.log('DB connection successful'));
 
-// start the server
 const port = process.env.PORT || 3000;
 const server = app.listen(port, () => {
   console.log(`App running on port ${port}...`);
