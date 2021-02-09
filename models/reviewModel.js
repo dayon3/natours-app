@@ -35,21 +35,6 @@ const reviewSchema = new mongoose.Schema(
 
 reviewSchema.index({ tour: 1, user: 1 }, { unique: true });
 
-reviewSchema.pre(/^find/, function (next) {
-  this.populate({
-    path: 'user',
-    select: 'name photo',
-  });
-  // this.populate({
-  //   path: 'tour',
-  //   select: 'name',
-  // }).populate({
-  //   path: 'user',
-  //   select: 'name photo',
-  // });
-  next();
-});
-
 // static method
 reviewSchema.statics.calcAverageRatings = async function (tourId) {
   const stats = await this.aggregate([
@@ -82,9 +67,19 @@ reviewSchema.statics.calcAverageRatings = async function (tourId) {
   }
 };
 
-reviewSchema.post('save', function () {
-  // this points to current review
-  this.constructor.calcAverageRatings(this.tour);
+reviewSchema.pre(/^find/, function (next) {
+  this.populate({
+    path: 'user',
+    select: 'name photo',
+  });
+  // this.populate({
+  //   path: 'tour',
+  //   select: 'name',
+  // }).populate({
+  //   path: 'user',
+  //   select: 'name photo',
+  // });
+  next();
 });
 
 // findByIdAndUpdate
@@ -93,6 +88,11 @@ reviewSchema.pre(/^findOneAnd/, async function (next) {
   this.r = await this.findOne();
   // console.log(this.r);
   next();
+});
+
+reviewSchema.post('save', function () {
+  // this points to current review
+  this.constructor.calcAverageRatings(this.tour);
 });
 
 reviewSchema.post(/^findOneAnd/, async function () {
