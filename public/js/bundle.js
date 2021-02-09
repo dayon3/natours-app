@@ -8738,70 +8738,25 @@ var updateSettings = /*#__PURE__*/function () {
 
 exports.updateSettings = updateSettings;
 },{"axios":"../../node_modules/axios/index.js","./alerts":"alerts.js"}],"stripe.js":[function(require,module,exports) {
-"use strict";
-
-Object.defineProperty(exports, "__esModule", {
-  value: true
-});
-exports.bookTour = void 0;
-
-var _axios = _interopRequireDefault(require("axios"));
-
-var _alerts = require("./alerts");
-
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-
-function asyncGeneratorStep(gen, resolve, reject, _next, _throw, key, arg) { try { var info = gen[key](arg); var value = info.value; } catch (error) { reject(error); return; } if (info.done) { resolve(value); } else { Promise.resolve(value).then(_next, _throw); } }
-
-function _asyncToGenerator(fn) { return function () { var self = this, args = arguments; return new Promise(function (resolve, reject) { var gen = fn.apply(self, args); function _next(value) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "next", value); } function _throw(err) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "throw", err); } _next(undefined); }); }; }
-
-var stripe = Stripe('pk_test_51I3J0kFBZSA9mj3I1dlXxWaA6p74CbJMHaHSuYKYToMukUzsZH5mhP0J3N2tpR69Puqff1NwAXJAKMG4bQxGNe8K00T7OuJSQa');
-
-var bookTour = /*#__PURE__*/function () {
-  var _ref = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee(tourId) {
-    var session;
-    return regeneratorRuntime.wrap(function _callee$(_context) {
-      while (1) {
-        switch (_context.prev = _context.next) {
-          case 0:
-            _context.prev = 0;
-            _context.next = 3;
-            return (0, _axios.default)("/api/v1/bookings/checkout-session/".concat(tourId));
-
-          case 3:
-            session = _context.sent;
-            console.log(session); //  2) Create checkout form + charge credit card
-
-            _context.next = 7;
-            return stripe.redirectToCheckout({
-              sessionId: session.data.session.id
-            });
-
-          case 7:
-            _context.next = 13;
-            break;
-
-          case 9:
-            _context.prev = 9;
-            _context.t0 = _context["catch"](0);
-            console.log(_context.t0);
-            (0, _alerts.showAlert)('error', _context.t0);
-
-          case 13:
-          case "end":
-            return _context.stop();
-        }
-      }
-    }, _callee, null, [[0, 9]]);
-  }));
-
-  return function bookTour(_x) {
-    return _ref.apply(this, arguments);
-  };
-}();
-
-exports.bookTour = bookTour;
-},{"axios":"../../node_modules/axios/index.js","./alerts":"alerts.js"}],"index.js":[function(require,module,exports) {
+/* eslint-disable */
+// import axios from 'axios';
+// import { showAlert } from './alerts';
+// const stripe = Stripe(
+//   'pk_test_51I3J0kFBZSA9mj3I1dlXxWaA6p74CbJMHaHSuYKYToMukUzsZH5mhP0J3N2tpR69Puqff1NwAXJAKMG4bQxGNe8K00T7OuJSQa'
+// );
+// export const bookTour = async (tourId) => {
+//   try {
+//     // 1) Get checkout session from API
+//     const session = await axios(`/api/v1/bookings/checkout-session/${tourId}`);
+//     console.log(session);
+//     //  2) Create checkout form + charge credit card
+//     await stripe.redirectToCheckout({ sessionId: session.data.session.id });
+//   } catch (error) {
+//     console.log(error);
+//     showAlert('error', error);
+//   }
+// };
+},{}],"index.js":[function(require,module,exports) {
 "use strict";
 
 require("core-js/modules/es6.array.copy-within");
@@ -9201,7 +9156,7 @@ var parent = module.bundle.parent;
 if ((!parent || !parent.isParcelRequire) && typeof WebSocket !== 'undefined') {
   var hostname = "" || location.hostname;
   var protocol = location.protocol === 'https:' ? 'wss' : 'ws';
-  var ws = new WebSocket(protocol + '://' + hostname + ':' + "33917" + '/');
+  var ws = new WebSocket(protocol + '://' + hostname + ':' + "43193" + '/');
 
   ws.onmessage = function (event) {
     checkedAssets = {};

@@ -7,6 +7,7 @@ const {
   getLoginForm,
   getSignupForm,
   getAccount,
+  getMyTours,
   updateUserData,
 } = require('../controllers/viewController');
 
@@ -17,6 +18,7 @@ router.get('/tour/:slug', isLoggedIn, getTour);
 router.get('/login', isLoggedIn, getLoginForm);
 router.get('/me', protect, getAccount);
 router.get('/signup', isLoggedIn, getSignupForm);
+router.get('/my-tours', protect, getMyTours);
 
 router.post('/submit-user-data', protect, updateUserData);
 
