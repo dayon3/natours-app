@@ -12,14 +12,14 @@ dotenv.config({ path: './config.env' });
 const app = require('./app');
 
 // TODO: activate db on atlas
-// const DB = process.env.DATABASE.replace(
-//   '<PASSWORD>',
-//   process.env.DATABASE_PASSWORD
-// );
+const DB = process.env.DATABASE.replace(
+  '<PASSWORD>',
+  process.env.DATABASE_PASSWORD
+);
 
-// .connect(DB, {
+// .connect(process.env.DATABASE_LOCAL, {
 mongoose
-  .connect(process.env.DATABASE_LOCAL, {
+  .connect(DB, {
     useNewUrlParser: true,
     useUnifiedTopology: true,
     useCreateIndex: true,
