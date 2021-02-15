@@ -1,4 +1,4 @@
-# natours-app | [live](https://natours-app.netlify.app)
+# Natours Application
 
 ---
 
@@ -6,7 +6,10 @@
 
 > ## Tech stack
 >
+> Built using modern technologies:
+
 > - Node.js
 > - Express
 > - MongoDB
+> - Mongoose
 > - Pug 🐶
